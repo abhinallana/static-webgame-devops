@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch the Falling Objects</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+        canvas {
+            display: block;
+            background-color: #222;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let basket = { x: canvas.width / 2 - 25, y: canvas.height - 40, width: 50, height: 20 };
+        let objects = [];
+        let score = 0;
+
+        function spawnObject() {
+            objects.push({ x: Math.random() * canvas.width, y: 0, size: 20 });
+        }
+
+        function moveBasket(direction) {
+            basket.x += direction * 20;
+            basket.x = Math.max(0, Math.min(canvas.width - basket.width, basket.x));
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft") moveBasket(-1);
+            if (e.key === "ArrowRight") moveBasket(1);
+        });
+
+        function updateGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(basket.x, basket.y, basket.width, basket.height);
+
+            for (let i = objects.length - 1; i >= 0; i--) {
+                let obj = objects[i];
+                obj.y += 5;
+                ctx.beginPath();
+                ctx.arc(obj.x, obj.y, obj.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (obj.y > canvas.height) {
+                    objects.splice(i, 1);
+                } else if (
+                    obj.y + obj.size > basket.y &&
+                    obj.x > basket.x &&
+                    obj.x < basket.x + basket.width
+                ) {
+                    objects.splice(i, 1);
+                    score++;
+                }
+            }
+
+            ctx.fillStyle = "#0f0";
+            ctx.font = "20px Arial";
+            ctx.fillText("Score: " + score, 10, 30);
+        }
+
+        setInterval(updateGame, 30);
+        setInterval(spawnObject, 800);
+    </script>
+</body>
+</html>
