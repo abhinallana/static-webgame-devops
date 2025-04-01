@@ -24,7 +24,7 @@ pipeline{
             }
         stage ("Docker Build"){
             steps{
-                sh "docker build -t abhinallana/${IMAGE_NAME}:${TAG} ."
+                sh "sudo docker build -t abhinallana/${IMAGE_NAME}:${TAG} ."
             }
         }
         
