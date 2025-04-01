@@ -33,5 +33,15 @@ pipeline{
                 
             }
         }
+
+        //Deploy to Kubernetes Minikube Cluster
+
+        stage ("Deploy to Kubernetes"){
+            steps{
+                echo "Deploying to Kubernetes"
+                sh "kubectl apply -f k8s/deployment.yaml"
+                sh "kubectl apply -f k8s/service.yaml"
+            }
+        }
 }
 }
