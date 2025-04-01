@@ -2,8 +2,8 @@ pipeline{
     agent any
     
     environment{
-        IMAGE_NAME = 'webgame'
-        TAG ='v2'
+        IMAGE_NAME = 'webapp'
+        TAG ='v1'
     }
     
     stages{
@@ -15,6 +15,8 @@ pipeline{
         stage ("Login to Docker"){
             steps{
                 echo "Logging in to Docker"
+                echo "Docker Version"
+                sh 'docker --version'
                 withCredentials([usernamePassword(credentialsId: 'DockerCreds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
                 }
