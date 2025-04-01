@@ -3,7 +3,7 @@ pipeline{
     
     environment{
         IMAGE_NAME = 'webgame'
-        TAG ='v1'
+        TAG ='v2'
     }
     
     stages{
