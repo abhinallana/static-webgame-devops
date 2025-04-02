@@ -4,6 +4,7 @@ pipeline{
     environment{
         IMAGE_NAME = 'webapp'
         TAG ='v1'
+        KUBECONFIG = '/root/.minikube/config/config'
     }
     
     stages{
