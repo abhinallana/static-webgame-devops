@@ -42,6 +42,7 @@ pipeline{
         stage ("Deploy to Kubernetes"){
             steps{
                 echo "Deploying to Kubernetes"
+                sh "kubectl apply -f nginx-configmap.yml"
                 sh "kubectl apply -f k8s/deployment.yml"
                 sh "kubectl apply -f k8s/service.yml"
             }
